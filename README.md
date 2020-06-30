@@ -71,7 +71,7 @@ Setp 5 : Define index path with '/' and ejs file
                rows: rows
            });
    
-       })
+       });
    });
 
 Setp 6 : Run a server and check with Browser
