@@ -62,18 +62,18 @@ Setp 5 : Define index path with '/' and ejs file
 			
 		
               app.get('/', (req, res) => {
-                  const sql = "SELECT id_P,nameP,prix,quantite,societe,nameF,tel,email,nameR,categorie FROM  ((produit INNER JOIN fournisseur ON produit.id_F = fournisseur.id_F) INNER JOIN rayon ON produit.id_R = rayon.id_R)";
-                     connection.query(sql, (err, rows) => {
-                      console.log(rows);
-                         if (err) throw err;
-                         res.render('index', {
-                          title : 'index',
-                             rows: rows
-                         });
+    const sql = "SELECT id_P,nameP,prix,quantite,societe,nameF,tel,email,nameR,categorie FROM  ((produit INNER JOIN fournisseur ON produit.id_F = fournisseur.id_F) INNER JOIN rayon ON produit.id_R = rayon.id_R)";
+       connection.query(sql, (err, rows) => {
+        console.log(rows);
+           if (err) throw err;
+           res.render('index', {
+            title : 'index',
+               rows: rows
+           });
    
-                     })
+       })
    
-                 });
+   });
 
 Setp 6 : Run a server and check with Browser
 			node app
