@@ -1,8 +1,6 @@
 
-
-
 ------------------------------------------------------------------------------------------------------------
-|               # app-SupGest--Brief-gestion-d-inventaire- avec NodeJS, ExpressJS, EJS et MySQL         |
+|              Création d'une application de gestion d’inventaire avec NodeJS, ExpressJS, EJS et MySQL         |
 ------------- ----------------------------------------------------------------------------------------------
 
 
@@ -14,90 +12,72 @@ Step 1 : open new folder then install  npm init
 			 
 		
 Step 2 : Install Requred packages using NPM like this ===> 
-			==> npm install  express mysql body-parser ejs cors  --save
+			==> npm install  body-parser ejs express mysql  --save
 			
 		
-Step 3 : Add follwoing code in app.js
+Step 3 : Add follwoing code in app.js & Create Database Connection 
                        
 
-		        const express = require('express');
-			const path = require('path');
-			const ejs = require('ejs');
-                        const cors = require('cors');
-                        const bodyParser = require('body-parser');
-			const mysql = require('mysql');
-			const app = express();
-                        const PORT = process.env.PORT || 3000
+		        const path = require('path');
+            const express = require('express');
+            const ejs = require('ejs');
+            const bodyParser = require('body-parser');
+            const mysql = require('mysql');
+            const app = express();
+            const port = process.env.PORT || 3000;
                         
-                        
-                       
-
- 
-                     // 404 handler
-                     app.use((req, res, next) => {
-                     res.status(404).render('404');
-                   });
 
 
                    //  Listing Server 
-                    app.listen(PORT, () => {
-                   console.log('server is rinning')
-                   });
+                      app.listen(port, (error)=>{
+                      console.log(`Listening on port ${port}`);
+                    });
 
 
-
+			        const mysql=require('mysql');
 			
+			        const connection=mysql.createConnection({
+			            host:'localhost',
+			            user:'root',
+			            password:'// put your password //',
+			            database:'// put name of your database //)'
+		        	});
 			
-		
-		
-Step 4 : Create Database Connection 
-			const mysql=require('mysql');
-			
-			const connection=mysql.createConnection({
-			  host:'localhost',
-			  user:'root',
-			  password:'put your massword',
-			  database:'put name of your database)'
-			});
-			
-			connection.connect(function(error){
-			  if(!!error) console.log(error);
-			  else console.log('Database Connected!');
-			}); 
+		          connection.connect((error)=>{
+                  if(error) console.log(error);
+                  console.log('Database Connected!');
+               });
 
-Setp 5 : Define view engin with ejs / public path / view files path / bodyParser/express static
+Setp 4 : Define view engin with ejs / public path / view files path / bodyParser/express static
 
-			app.use(cors());
-                       app.use(bodyParser.urlencoded({ extended: false }));
-                       app.use(bodyParser.json());
-                       app.use(express.static(path.join(__dirname, "public")));
-                       app.use(express.static(path.join(__dirname, "public", "css")));
-                       app.use(express.static(path.join(__dirname, )));
-                       app.use(require('./route/router'))
+			        app.use(express.static(path.join(__dirname, 'public','css')));
+			        app.use(express.static(path.join(__dirname, 'public','img')));
+			        app.use(express.static(path.join(__dirname, 'public','lib')));
+			        app.use(bodyParser.json());
+			        app.use(bodyParser.urlencoded({ extended: false }));
+			        app.set('view engine', 'ejs');
+			        app.set('views',path.join(__dirname,'views'));
 
-                      app.set('view engine', 'ejs');
-                      app.set('views', 'views');
-
-Setp 6 : Define index path with '/' and ejs file
+Setp 5 : Define index path with '/' and ejs file
 			
 		
-			 route.get('/', (req, res) => {
- const sql = "SELECT produit_id,produit_name,prix,Quantité,Frs_name,Tel,Rayon_name FROM  
-             ((produits INNER JOIN fournisseurs ON produits.Frs_id = fournisseurs.Frs_id)
-             INNER JOIN rayons ON produits.Rayon_id = rayons.Rayon_id)";
-    const query = conn.query(sql, (err, rows) => {
-        if (err) throw err;
-        res.render('dashboard', {
-            ALL: rows
-        });
+              app.get('/', (req, res) => {
+                  const sql = "SELECT id_P,nameP,prix,quantite,societe,nameF,tel,email,nameR,categorie FROM  ((produit INNER JOIN fournisseur ON produit.id_F = fournisseur.id_F) INNER JOIN rayon ON produit.id_R = rayon.id_R)";
+                     connection.query(sql, (err, rows) => {
+                      console.log(rows);
+                         if (err) throw err;
+                         res.render('index', {
+                          title : 'index',
+                             rows: rows
+                         });
+   
+                     })
+   
+                 });
 
-    })
-
-});
-
-Setp 7 : Run a server and check with Browser
+Setp 6 : Run a server and check with Browser
 			node app
 
 			http://localhost:3000/
 			
-Step 8 : Get value from database and show in ejs template
+Step 7 : Get value from database and show in ejs template
