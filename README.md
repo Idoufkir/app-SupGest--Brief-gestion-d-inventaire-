@@ -98,6 +98,6 @@ Setp 6 : Define index path with '/' and ejs file
 Setp 7 : Run a server and check with Browser
 			node app
 
-			http://localhost:1000/
+			http://localhost:3000/
 			
 Step 8 : Get value from database and show in ejs template
