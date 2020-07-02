@@ -7,6 +7,8 @@
 Firstable go Ampps open server then go to phpmyadmin create database then create table with 3 columns id auto_increment name 
 description then follow bellow steps:
 
+# Démarrer wampserver et impoter la base données      
+Vous trouver la base de données dans le dossier database du projet (app_inventaire.sql)
 
 Step 1 : open new folder then install  npm init 
 			 
