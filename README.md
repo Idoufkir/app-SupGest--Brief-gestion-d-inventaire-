@@ -80,5 +80,6 @@ Setp 6 : Run a server and check with Browser
 			node app
 
 			http://localhost:3000/
+         
 			
 Step 7 : Get value from database and show in ejs template
